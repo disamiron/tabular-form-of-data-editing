@@ -7,9 +7,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UsersService {
   constructor(private http: HttpClient) {}
-  configUrl = 'http://87.242.76.45/testdata.json';
+  public configUrl = 'http://87.242.76.45/testdata.json';
 
   public getUsers() {
-    return this.http.get<User[]>(this.configUrl);
+    return this.http.get<{ users: User[] }>(this.configUrl);
   }
 }
