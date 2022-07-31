@@ -1,0 +1,17 @@
+.table {
+  width: 100%;
+}
+.mat-column-checkbox,
+.mat-column-edit {
+  width: 32px;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background-color: white;
+}

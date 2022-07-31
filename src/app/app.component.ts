@@ -10,13 +10,13 @@ import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   @ViewChild('carriersContainer') public carriersContainer!: ElementRef;
   title = 'TableFormOfDataEdit';
 
-  public userScope: MatTableDataSource<User[]> = new MatTableDataSource();
+  public userScope: User[] = [];
   constructor(
     private _userService: UsersService,
     private _storageService: StorageService

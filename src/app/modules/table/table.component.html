@@ -1,25 +1,36 @@
-<table
-  class="table carriersContainer"
-  mat-table
-  [dataSource]="userScope"
-  #carriersContainer
->
+<table class="table" mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="checkbox">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox color="primary"></mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let user">
+      <mat-checkbox color="primary"></mat-checkbox>
+    </td>
+  </ng-container>
   <ng-container matColumnDef="users">
     <th mat-header-cell *matHeaderCellDef>Имя</th>
-    <td [style.width.px]="80" mat-cell *matCellDef="let user">
+    <td [style.width.px]="280" mat-cell *matCellDef="let user">
       <div class="user">{{ user.name }} {{ user.surname }}</div>
     </td>
   </ng-container>
   <ng-container matColumnDef="mail">
     <th mat-header-cell *matHeaderCellDef>E-mail</th>
-    <td [style.width.px]="80" mat-cell *matCellDef="let user">
+    <td [style.width.px]="280" mat-cell *matCellDef="let user">
       <div class="user">{{ user.email }}</div>
     </td>
   </ng-container>
   <ng-container matColumnDef="phone">
     <th mat-header-cell *matHeaderCellDef>Номер телефона</th>
-    <td [style.width.px]="80" mat-cell *matCellDef="let user">
+    <td [style.width.px]="280" mat-cell *matCellDef="let user">
       <div class="user">{{ user.phone }}</div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let user">
+      <button class="button" mat-flat-button>
+        <img src="assets/img/edit.svg" alt="Иконка редактирования" />
+      </button>
     </td>
   </ng-container>
 
@@ -30,3 +41,10 @@
     *matRowDef="let row; columns: columnsToDisplay"
   ></tr>
 </table>
+<mat-paginator
+  #paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>
