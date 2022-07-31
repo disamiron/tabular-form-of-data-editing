@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { User } from './service.type';
+import { User } from './users.service.type';
 import { HttpClient } from '@angular/common/http';
-
-const COMPANIES_URL = '/companies';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GetService {
+export class UsersService {
   constructor(private http: HttpClient) {}
   configUrl = 'http://87.242.76.45/testdata.json';
 
-  public getConfig() {
+  public getUsers() {
     return this.http.get<User[]>(this.configUrl);
   }
 }
