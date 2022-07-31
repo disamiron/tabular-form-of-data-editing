@@ -1,0 +1,32 @@
+<table
+  class="table carriersContainer"
+  mat-table
+  [dataSource]="userScope"
+  #carriersContainer
+>
+  <ng-container matColumnDef="users">
+    <th mat-header-cell *matHeaderCellDef>Имя</th>
+    <td [style.width.px]="80" mat-cell *matCellDef="let user">
+      <div class="user">{{ user.name }} {{ user.surname }}</div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="mail">
+    <th mat-header-cell *matHeaderCellDef>E-mail</th>
+    <td [style.width.px]="80" mat-cell *matCellDef="let user">
+      <div class="user">{{ user.email }}</div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="phone">
+    <th mat-header-cell *matHeaderCellDef>Номер телефона</th>
+    <td [style.width.px]="80" mat-cell *matCellDef="let user">
+      <div class="user">{{ user.phone }}</div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr
+    class="table-row"
+    mat-row
+    *matRowDef="let row; columns: columnsToDisplay"
+  ></tr>
+</table>

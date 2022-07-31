@@ -16,10 +16,7 @@ export class AppComponent implements OnInit {
   @ViewChild('carriersContainer') public carriersContainer!: ElementRef;
   title = 'TableFormOfDataEdit';
 
-  public dataSource: MatTableDataSource<User[]> = new MatTableDataSource();
-
-  public columnsToDisplay = ['users', 'mail', 'phone'];
-
+  public userScope: MatTableDataSource<User[]> = new MatTableDataSource();
   constructor(
     private _userService: UsersService,
     private _storageService: StorageService
@@ -32,12 +29,10 @@ export class AppComponent implements OnInit {
         .pipe(untilDestroyed(this))
         .subscribe((v) => {
           this._storageService.setItem(StorageType.Users, v.users);
-          this.dataSource.data = this._storageService.getItem(
-            StorageType.Users
-          );
+          this.userScope = this._storageService.getItem(StorageType.Users);
         });
     } else {
-      this.dataSource.data = this._storageService.getItem(StorageType.Users);
+      this.userScope = this._storageService.getItem(StorageType.Users);
     }
   }
 }
