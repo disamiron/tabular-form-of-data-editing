@@ -49,6 +49,6 @@ export class AppComponent implements OnInit {
   }
 
   public removeUsers(): void {
-    this._tableComponent.removeUsers();
+    this._tableComponent.removeConfirm();
   }
 }

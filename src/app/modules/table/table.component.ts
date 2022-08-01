@@ -13,7 +13,11 @@ import { ResizeEvent } from 'angular-resizable-element';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { StorageType } from 'src/app/services/storage/storage.type';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -73,7 +77,8 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   constructor(
     private _storageService: StorageService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _dialog: MatDialog
   ) {}
 
   public ngOnInit() {
@@ -179,5 +184,24 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.removeArray = [];
       this.dataSource.data = this._storageService.getItem(StorageType.Users);
     }
+  }
+
+  public removeConfirm() {
+    if (!this.removeArray.length) {
+      return;
+    }
+    this._dialog
+      .open(DialogComponent, {
+        data: {
+          arrayRemoveCounter: this.removeArray.length,
+        },
+      })
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((v) => {
+        if (v === 'confirm') {
+          this.removeUsers();
+        }
+      });
   }
 }

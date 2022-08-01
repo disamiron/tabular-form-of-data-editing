@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 560px;
+}
+
+.titles {
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.15px;
+  padding: 4px 0;
+  color: #263238;
+  .title {
+    font-size: 20px;
+  }
+  .subtitle {
+    font-size: 17px;
+    font-weight: 400;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  button {
+    text-transform: uppercase;
+  }
+  .confirm {
+    color: #ff0000;
+  }
+  .cancel {
+    color: #2f7fd5;
+  }
+}
