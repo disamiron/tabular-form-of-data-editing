@@ -22,7 +22,8 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4",
     "@ngneat/until-destroy": "^8.1.0",
-    "@angular/material": "^14.1.0"
+    "@angular/material": "^14.1.0",
+    "angular-resizable-element": "3.2.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.1.0",

@@ -8,6 +8,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ResizableModule } from 'angular-resizable-element';
+import { CdkTableModule } from '@angular/cdk/table';
 
 @NgModule({
   declarations: [AppComponent, TableComponent],
@@ -19,6 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatCheckboxModule,
     MatPaginatorModule,
     BrowserAnimationsModule,
+    ResizableModule,
+    CdkTableModule,
   ],
   exports: [
     MatTableModule,

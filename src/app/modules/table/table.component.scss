@@ -1,8 +1,27 @@
 .table {
   width: 100%;
+  border-collapse: collapse;
 }
-.mat-column-checkbox,
-.mat-column-edit {
+
+th:last-child {
+  height: 56.5px;
+  width: 95%;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px !important;
+}
+td:last-child {
+  height: 55px;
+  width: 95%;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px !important;
+}
+.mat-column-checkbox {
   width: 32px;
 }
 .button {
@@ -14,4 +33,31 @@
   height: 32px;
   padding: 0;
   background-color: white;
+}
+
+.resize {
+  display: flex;
+  height: 55px;
+  justify-content: space-between;
+  align-items: center;
+  .cursor {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 10px;
+    height: 55px;
+    cursor: col-resize;
+    img {
+      visibility: hidden;
+    }
+    &:hover {
+      img {
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.mat-header-cell {
+  padding-left: 12px;
 }

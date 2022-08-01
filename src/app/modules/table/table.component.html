@@ -7,24 +7,73 @@
       <mat-checkbox color="primary"></mat-checkbox>
     </td>
   </ng-container>
+
   <ng-container matColumnDef="users">
-    <th mat-header-cell *matHeaderCellDef>Имя</th>
-    <td [style.width.px]="280" mat-cell *matCellDef="let user">
+    <th [style.width.px]="widthTable['user']" mat-header-cell *matHeaderCellDef>
+      <div
+        mwlResizable
+        [enableGhostResize]="true"
+        (resizeEnd)="onResizeEnd($event, 'user')"
+        class="resize"
+      >
+        <div>Имя</div>
+        <div mwlResizeHandle class="cursor" [resizeEdges]="{ right: true }">
+          <img src="assets/img/resize.svg" />
+        </div>
+      </div>
+    </th>
+    <td [style.width.px]="widthTable['user']" mat-cell *matCellDef="let user">
       <div class="user">{{ user.name }} {{ user.surname }}</div>
     </td>
   </ng-container>
+
   <ng-container matColumnDef="mail">
-    <th mat-header-cell *matHeaderCellDef>E-mail</th>
-    <td [style.width.px]="280" mat-cell *matCellDef="let user">
+    <th [style.width.px]="widthTable['mail']" mat-header-cell *matHeaderCellDef>
+      <div
+        mwlResizable
+        [enableGhostResize]="true"
+        (resizeEnd)="onResizeEnd($event, 'mail')"
+        class="resize"
+      >
+        <div>E-mail</div>
+        <div mwlResizeHandle class="cursor" [resizeEdges]="{ right: true }">
+          <img src="assets/img/resize.svg" />
+        </div>
+      </div>
+    </th>
+    <td [style.width.px]="widthTable['mail']" mat-cell *matCellDef="let user">
       <div class="user">{{ user.email }}</div>
     </td>
   </ng-container>
+
   <ng-container matColumnDef="phone">
-    <th mat-header-cell *matHeaderCellDef>Номер телефона</th>
-    <td [style.width.px]="280" mat-cell *matCellDef="let user">
+    <th
+      [style.width.px]="widthTable['phone']"
+      mat-header-cell
+      *matHeaderCellDef
+    >
+      <div
+        mwlResizable
+        [enableGhostResize]="true"
+        (resizeEnd)="onResizeEnd($event, 'phone')"
+        class="resize"
+      >
+        <div>Номер телефона</div>
+        <div mwlResizeHandle class="cursor" [resizeEdges]="{ right: true }">
+          <img src="assets/img/resize.svg" />
+        </div>
+      </div>
+    </th>
+    <td
+      [style.width.px]="widthTable['phone']"
+      class="blue"
+      mat-cell
+      *matCellDef="let user"
+    >
       <div class="user">{{ user.phone }}</div>
     </td>
   </ng-container>
+
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let user">

@@ -5,4 +5,5 @@ export interface Storage {
 
 export enum StorageType {
   Users = 'USERS',
+  TableWidth = 'TABLE_WIDTH',
 }

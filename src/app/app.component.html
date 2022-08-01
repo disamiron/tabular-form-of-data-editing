@@ -6,4 +6,4 @@
     <img src="assets/img/remove.svg" alt="Иконка удаления" />
   </button>
 </header>
-<app-table [userScope]="userScope"></app-table>
+<app-table *ngIf="userScope.length > 0" [userScope]="userScope"></app-table>
