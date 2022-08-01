@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ResizeEvent } from 'angular-resizable-element';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { StorageType } from 'src/app/services/storage/storage.type';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-table',
@@ -34,7 +35,26 @@ export class TableComponent implements OnInit, AfterViewInit {
   public minWidth: number = 150;
   public maxWidth: number = 600;
 
-  constructor(private _storageService: StorageService) {}
+  public editUserId: number | null = null;
+
+  public columnsToDisplay = ['checkbox', 'users', 'mail', 'phone', 'edit'];
+
+  public form: FormGroup = this._fb.group({
+    user: [
+      null,
+      [Validators.required, Validators.pattern(/^[А-Яа-я]+\s[А-Яа-я]+$/)],
+    ],
+    email: [null, [Validators.required]],
+    phone: [
+      null,
+      [Validators.required, Validators.pattern(/^\+[7][0-9]{10}$/)],
+    ],
+  });
+
+  constructor(
+    private _storageService: StorageService,
+    private _fb: FormBuilder
+  ) {}
 
   public ngOnInit() {
     this.dataSource.data = this.userScope;
@@ -66,5 +86,28 @@ export class TableComponent implements OnInit, AfterViewInit {
       this._storageService.setItem(StorageType.TableWidth, this.widthTable);
     }
   }
-  public columnsToDisplay = ['checkbox', 'users', 'mail', 'phone', 'edit'];
+
+  public editMode(userId: number) {
+    if (userId === this.editUserId) {
+      this.editUserId = null;
+      return;
+    }
+    this.editUserId = userId;
+    const searchUser: User = this._storageService.getUserById(userId);
+    this.form.patchValue({
+      user: searchUser.name + ' ' + searchUser.surname,
+      ...searchUser,
+    });
+  }
+
+  public saveChanges() {
+    this._storageService.saveUser(
+      this.editUserId!,
+      this.form.value.user,
+      this.form.value.email,
+      this.form.value.phone
+    );
+    this.editMode(this.editUserId!);
+    this.dataSource.data = this._storageService.getItem(StorageType.Users);
+  }
 }

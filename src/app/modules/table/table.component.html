@@ -1,4 +1,4 @@
-<table class="table" mat-table [dataSource]="dataSource">
+<table class="table" mat-table [dataSource]="dataSource" [formGroup]="form">
   <ng-container matColumnDef="checkbox">
     <th mat-header-cell *matHeaderCellDef>
       <mat-checkbox color="primary"></mat-checkbox>
@@ -23,7 +23,20 @@
       </div>
     </th>
     <td [style.width.px]="widthTable['user']" mat-cell *matCellDef="let user">
-      <div class="user">{{ user.name }} {{ user.surname }}</div>
+      <div *ngIf="user.id !== editUserId" class="user">
+        {{ user.name }} {{ user.surname }}
+      </div>
+      <input
+        *ngIf="user.id === editUserId"
+        [ngClass]="{
+          error:
+            form.controls['user'].hasError('required') ||
+            form.controls['user'].hasError('pattern')
+        }"
+        formControlName="user"
+        matInput
+        autocomplete="off"
+      />
     </td>
   </ng-container>
 
@@ -42,7 +55,20 @@
       </div>
     </th>
     <td [style.width.px]="widthTable['mail']" mat-cell *matCellDef="let user">
-      <div class="user">{{ user.email }}</div>
+      <div *ngIf="user.id !== editUserId" class="user">{{ user.email }}</div>
+      <input
+        *ngIf="user.id === editUserId"
+        [ngClass]="{
+          error:
+            form.controls['email'].hasError('required') ||
+            form.controls['email'].hasError('email')
+        }"
+        formControlName="email"
+        matInput
+        autocomplete="off"
+        type="email"
+        email="true"
+      />
     </td>
   </ng-container>
 
@@ -70,15 +96,47 @@
       mat-cell
       *matCellDef="let user"
     >
-      <div class="user">{{ user.phone }}</div>
+      <div *ngIf="user.id !== editUserId" class="user">{{ user.phone }}</div>
+      <input
+        *ngIf="user.id === editUserId"
+        [ngClass]="{
+          error:
+            form.controls['phone'].hasError('required') ||
+            form.controls['phone'].hasError('pattern')
+        }"
+        formControlName="phone"
+        matInput
+        autocomplete="off"
+      />
     </td>
   </ng-container>
 
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let user">
-      <button class="button" mat-flat-button>
+      <button
+        *ngIf="user.id !== editUserId"
+        class="button"
+        mat-flat-button
+        (click)="editMode(user.id)"
+      >
         <img src="assets/img/edit.svg" alt="Иконка редактирования" />
+      </button>
+      <button
+        *ngIf="user.id === editUserId"
+        mat-raised-button
+        color="primary"
+        (click)="saveChanges()"
+        [disabled]="form.status === 'INVALID'"
+      >
+        Сохранить
+      </button>
+      <button
+        *ngIf="user.id === editUserId"
+        mat-raised-button
+        (click)="editMode(user.id)"
+      >
+        Отменить
       </button>
     </td>
   </ng-container>

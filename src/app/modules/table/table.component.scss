@@ -57,7 +57,22 @@ td:last-child {
     }
   }
 }
-
+.mat-cell {
+  padding-right: 20px;
+}
 .mat-header-cell {
-  padding-left: 12px;
+  padding-left: 20px;
+}
+input {
+  padding-left: 10px;
+  height: 38px;
+  background: #0080ff42;
+  border-radius: 8px;
+}
+.error {
+  background: #cc545442;
+}
+button {
+  border-radius: 8px;
+  margin-right: 10px;
 }
