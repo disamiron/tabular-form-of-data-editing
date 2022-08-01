@@ -9,8 +9,8 @@ import { Storage, StorageType } from './storage.type';
 export class StorageService {
   public storageChange$ = new Subject<Storage>();
 
-  public setItem(type: StorageType, value: any): void {
-    if (type === StorageType.Users) {
+  public setItem(type: StorageType, value: any, withoutNewId?: boolean): void {
+    if (type === StorageType.Users && !withoutNewId) {
       let id = 1;
       value.forEach((user: User) => {
         user.id = id;
@@ -35,20 +35,52 @@ export class StorageService {
   }
 
   public saveUser<T>(
-    id: number,
+    id: number | null,
     name: string,
     email: string,
     phone: string
   ): void {
     let users: User[] = this.getItem(StorageType.Users);
-    users.forEach((user) => {
-      if (user.id === id) {
-        user.name = name.split(' ')[0];
-        user.surname = name.split(' ')[1];
-        user.email = email;
-        user.phone = phone;
+    if (id) {
+      users.forEach((user) => {
+        if (user.id === id) {
+          user.name = name.split(' ')[0];
+          user.surname = name.split(' ')[1];
+          user.email = email;
+          user.phone = phone;
+        }
+      });
+    } else {
+      let newId;
+      if (users.length) {
+        const idArray: number[] = [];
+        users.forEach((user) => {
+          if (user.id) {
+            idArray.push(user.id);
+          }
+        });
+        newId = Math.max(...idArray) + 1;
+      } else {
+        newId = 1;
       }
-    });
-    this.setItem(StorageType.Users, users);
+      users.unshift({
+        id: newId,
+        name: name.split(' ')[0],
+        surname: name.split(' ')[1],
+        email: email,
+        phone: phone,
+      });
+    }
+
+    this.setItem(StorageType.Users, users, true);
+  }
+
+  public removeUsers(usersArrayId: number[]) {
+    let newUsersArray: User[] = this.getItem(StorageType.Users);
+    this.setItem(
+      StorageType.Users,
+      newUsersArray.filter((user) => !usersArrayId.includes(user.id!)),
+      true
+    );
   }
 }

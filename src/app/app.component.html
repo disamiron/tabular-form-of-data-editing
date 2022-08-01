@@ -1,9 +1,9 @@
 <header class="header">
-  <button class="button" mat-flat-button>
+  <button class="button" mat-flat-button (click)="addUser()">
     <img src="assets/img/add.svg" alt="Иконка добавления" />
   </button>
-  <button class="button" mat-flat-button>
+  <button class="button" mat-flat-button (click)="removeUsers()">
     <img src="assets/img/remove.svg" alt="Иконка удаления" />
   </button>
 </header>
-<app-table *ngIf="userScope.length > 0" [userScope]="userScope"></app-table>
+<app-table *ngIf="!isLoading" [userScope]="userScope"></app-table>

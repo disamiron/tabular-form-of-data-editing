@@ -4,7 +4,7 @@ import { UsersService } from './services/users/users.service';
 import { User } from './services/users/users.service.type';
 import { StorageType } from './services/storage/storage.type';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { MatTableDataSource } from '@angular/material/table';
+import { TableComponent } from './modules/table/table.component';
 
 @UntilDestroy()
 @Component({
@@ -14,9 +14,15 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class AppComponent implements OnInit {
   @ViewChild('carriersContainer') public carriersContainer!: ElementRef;
+
+  @ViewChild(TableComponent) private _tableComponent!: TableComponent;
+
   title = 'TableFormOfDataEdit';
 
   public userScope: User[] = [];
+
+  public isLoading: boolean = true;
+
   constructor(
     private _userService: UsersService,
     private _storageService: StorageService
@@ -30,9 +36,19 @@ export class AppComponent implements OnInit {
         .subscribe((v) => {
           this._storageService.setItem(StorageType.Users, v.users);
           this.userScope = this._storageService.getItem(StorageType.Users);
+          this.isLoading = false;
         });
     } else {
       this.userScope = this._storageService.getItem(StorageType.Users);
+      this.isLoading = false;
     }
+  }
+
+  public addUser(): void {
+    this._tableComponent.addUser();
+  }
+
+  public removeUsers(): void {
+    this._tableComponent.removeUsers();
   }
 }

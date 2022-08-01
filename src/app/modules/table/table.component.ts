@@ -26,6 +26,8 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   public dataSource: MatTableDataSource<any> = new MatTableDataSource();
 
+  public addUserMode: boolean = false;
+
   public widthTable: { [key: string]: number } = {
     user: 200,
     mail: 200,
@@ -33,9 +35,12 @@ export class TableComponent implements OnInit, AfterViewInit {
   };
 
   public minWidth: number = 150;
+
   public maxWidth: number = 600;
 
   public editUserId: number | null = null;
+
+  public removeArray: number[] = [];
 
   public columnsToDisplay = ['checkbox', 'users', 'mail', 'phone', 'edit'];
 
@@ -50,6 +55,21 @@ export class TableComponent implements OnInit, AfterViewInit {
       [Validators.required, Validators.pattern(/^\+[7][0-9]{10}$/)],
     ],
   });
+
+  public get fullRemoveArray() {
+    return (
+      this.dataSource.data.filter((user) => user.id).length ===
+        this.removeArray.length &&
+      !!this.dataSource.data.filter((user) => user.id).length
+    );
+  }
+
+  public get partRemoveArray() {
+    return (
+      this.dataSource.data.filter((user) => user.id).length >
+        this.removeArray.length && this.removeArray.length > 0
+    );
+  }
 
   constructor(
     private _storageService: StorageService,
@@ -88,10 +108,15 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   public editMode(userId: number) {
+    if (this.addUserMode) {
+      this.dataSource.data = this.dataSource.data.slice(1);
+      this.addUserMode = false;
+    }
     if (userId === this.editUserId) {
       this.editUserId = null;
       return;
     }
+
     this.editUserId = userId;
     const searchUser: User = this._storageService.getUserById(userId);
     this.form.patchValue({
@@ -107,7 +132,52 @@ export class TableComponent implements OnInit, AfterViewInit {
       this.form.value.email,
       this.form.value.phone
     );
+    this.addUserMode = false;
     this.editMode(this.editUserId!);
     this.dataSource.data = this._storageService.getItem(StorageType.Users);
+  }
+
+  public addUser(): void {
+    this.addUserMode = true;
+    this.editUserId = null;
+    this.dataSource.data = [
+      {
+        id: null,
+      },
+      ...this.dataSource.data,
+    ];
+    this.form.patchValue({
+      user: null,
+      email: null,
+      phone: null,
+    });
+  }
+
+  public addToRemoveArray(id: number, event: boolean) {
+    if (event) {
+      this.removeArray.push(id);
+    } else {
+      const removeIndex = this.removeArray.findIndex((ids) => ids === id);
+      this.removeArray.splice(removeIndex, 1);
+    }
+  }
+
+  public addAllToremoveArray(event: boolean) {
+    this.removeArray = [];
+    if (event) {
+      this.dataSource.data.forEach((user) => {
+        if (user.id) {
+          this.removeArray.push(user.id);
+        }
+      });
+    }
+  }
+
+  public removeUsers() {
+    if (this.removeArray.length) {
+      this._storageService.removeUsers(this.removeArray);
+      this.removeArray = [];
+      this.dataSource.data = this._storageService.getItem(StorageType.Users);
+    }
   }
 }
